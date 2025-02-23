@@ -5,6 +5,7 @@
 1. Clone the repository:
 
   ~git clone https://github.com/alejandrojoandk/django-todo.git
+  
   ~cd django-todo
 
 2. Create a virtual environment:
