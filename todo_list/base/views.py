@@ -53,18 +53,10 @@ class TaskList(LoginRequiredMixin, ListView):
             context['tasks'] = context['tasks'].filter(title__icontains=search_input)
         context['search_input'] = search_input
         
-        search_date_from = self.request.GET.get('search-date-from')
-        search_date_to = self.request.GET.get('search-date-to')
-        
-        if search_date_from:
-            search_date_from = datetime.strptime(search_date_from, '%Y-%m-%d').date()
-        else:
-            search_date_from = '2000-01-01'
-        if search_date_to:
-            search_date_to = datetime.strptime(search_date_to, '%Y-%m-%d').date()
-        else:
-            search_date_to = datetime.today().date().strftime('%Y-%m-%d')
-
+        search_date_from = (datetime.strptime(self.request.GET.get('search-date-from'), '%Y-%m-%d').date() 
+                            if self.request.GET.get('search-date-from') else '2000-01-01')
+        search_date_to = (datetime.strptime(self.request.GET.get('search-date-to'), '%Y-%m-%d').date() 
+                          if self.request.GET.get('search-date-to') else datetime.today().date().strftime('%Y-%m-%d'))
         if search_date_from or search_date_to:
             context['tasks'] = context['tasks'].filter(
                 created__range=[search_date_from, search_date_to]
